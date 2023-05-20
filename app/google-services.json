@@ -1,0 +1,39 @@
+{
+    "project_info": {
+        "project_number": "435798195632",
+        "project_id": "majority-tmc-wallet",
+        "storage_bucket": "majority-tmc-wallet.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:435798195632:android:dd1b637cf6a5e9953d2a75",
+                "android_client_info": {
+                    "package_name": "io.majoritytmc.wallet"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "435798195632-n80ie3tv6padcpfg2l37hja26lq2n6vs.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyAZZEGhkYaBprcqyGFxmvB3O5LuCLBGdSM"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "435798195632-n80ie3tv6padcpfg2l37hja26lq2n6vs.apps.googleusercontent.com",
+                            "client_type": 3
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}
