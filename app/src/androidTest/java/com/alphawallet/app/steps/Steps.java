@@ -8,10 +8,8 @@ import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
-import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
@@ -27,26 +25,12 @@ import static com.alphawallet.app.util.Helper.waitForLoadingComplete;
 import static com.alphawallet.app.util.Helper.waitUntil;
 import static com.alphawallet.app.util.Helper.waitUntilThenBack;
 import static com.alphawallet.app.util.RootUtil.isDeviceRooted;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.HorizontalScrollView;
-import android.widget.ScrollView;
-
-import androidx.core.widget.NestedScrollView;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.action.GeneralLocation;
-import androidx.test.espresso.action.GeneralSwipeAction;
-import androidx.test.espresso.action.Press;
-import androidx.test.espresso.action.Swipe;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
 
 import com.alphawallet.app.R;
 import com.alphawallet.app.assertions.Should;
@@ -54,8 +38,7 @@ import com.alphawallet.app.util.GetTextAction;
 import com.alphawallet.app.util.Helper;
 import com.alphawallet.app.util.ScrollToActionImproved;
 
-import org.hamcrest.Matcher;
-import org.hamcrest.core.AllOf;
+import org.hamcrest.CoreMatchers;
 
 /**
  * Every step consists of several operations, step name stands for user perspective actions.
@@ -118,7 +101,7 @@ public class Steps
         clickStaticListItem(withSubstring("Ethereum")); //deactivate eth
         onView(withId(R.id.network_scroller)).perform(swipeUp());
         Helper.wait(1);
-        onView(allOf(withId(R.id.switch_material), isDescendantOfA(withId(R.id.testnet_header)))).perform(ViewActions.click());
+        onView(CoreMatchers.allOf(withId(R.id.switch_material), isDescendantOfA(withId(R.id.testnet_header)))).perform(ViewActions.click());
 
         click(withText(R.string.action_enable_testnet));
         Helper.wait(1);
@@ -216,7 +199,7 @@ public class Steps
             textId = R.id.input_seed;
             buttonId = R.id.import_action;
         }
-        onView(allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(textId)))))).perform(replaceText(text));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(textId)))))).perform(replaceText(text));
         Helper.wait(2); // Avoid error: Error performing a ViewAction! soft keyboard dismissal animation may have been in the way. Retrying once after: 1000 millis
         click(withId(buttonId));
         Helper.wait(2);
@@ -238,9 +221,9 @@ public class Steps
 
         waitUntil(withSubstring("Enabled Networks"), 10);
         Helper.wait(1);
-        waitUntil(anyOf(withText(R.string.action_add), withId(R.id.action_add)));
+        waitUntil(CoreMatchers.anyOf(withText(R.string.action_add), withId(R.id.action_add)));
 
-        onView(anyOf(withText(R.string.action_add), withId(R.id.action_add))).perform(ViewActions.click());
+        onView(CoreMatchers.anyOf(withText(R.string.action_add), withId(R.id.action_add))).perform(ViewActions.click());
         //click(withId(R.id.action_add));
         input(R.id.input_network_name, "Ganache");
         input(R.id.input_network_rpc_url, GANACHE_URL);
@@ -259,7 +242,7 @@ public class Steps
         click(withText("I already have a Wallet"));
         click(withText("Private key"));
         Helper.wait(1);
-        onView(allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_private_key)))))).perform(replaceText(privateKey));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_private_key)))))).perform(replaceText(privateKey));
         Helper.wait(1); // Avoid error: Error performing a ViewAction! soft keyboard dismissal animation may have been in the way. Retrying once after: 1000 millis
         click(withId(R.id.import_action_pk));
         Helper.wait(15);
@@ -270,10 +253,10 @@ public class Steps
         click(withText("I already have a Wallet"));
         click(withText("Keystore"));
         Helper.wait(1);
-        onView(allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_keystore)))))).perform(replaceText(keystore));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_keystore)))))).perform(replaceText(keystore));
         Helper.wait(1); // Avoid error: Error performing a ViewAction! soft keyboard dismissal animation may have been in the way. Retrying once after: 1000 millis
         click(withText("Continue"));
-        onView(allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_password)))))).perform(replaceText(password));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_password)))))).perform(replaceText(password));
         click(withText("Continue"));
         Helper.wait(10);
     }
@@ -286,10 +269,10 @@ public class Steps
         click(withId(R.id.import_account_action));
         click(withText("Keystore"));
         Helper.wait(1);
-        onView(allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_keystore)))))).perform(replaceText(keystore));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_keystore)))))).perform(replaceText(keystore));
         Helper.wait(1); // Avoid error: Error performing a ViewAction! soft keyboard dismissal animation may have been in the way. Retrying once after: 1000 millis
         click(withText("Continue"));
-        onView(allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_password)))))).perform(replaceText(password));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_password)))))).perform(replaceText(password));
         click(withText("Continue"));
         Helper.wait(5);
         shouldSee("Select Active Networks");
@@ -308,7 +291,7 @@ public class Steps
 
     public static void toggleSwitch(int id)
     {
-        onView(allOf(withId(R.id.switch_material), isDescendantOfA(withId(id)))).perform(ViewActions.click());
+        onView(CoreMatchers.allOf(withId(R.id.switch_material), isDescendantOfA(withId(id)))).perform(ViewActions.click());
     }
 
     public static void addNewNetwork(String name, String symbol, String url)
@@ -323,7 +306,7 @@ public class Steps
         } catch (Exception e) {
             //This is normal. Maybe we dont have overflow menu.
         }
-        onView(anyOf(withText(R.string.action_add), withId(R.id.action_add))).perform(ViewActions.click());
+        onView(CoreMatchers.anyOf(withText(R.string.action_add), withId(R.id.action_add))).perform(ViewActions.click());
         //click(withId(R.id.action_add));
         input(R.id.input_network_name, name);
         input(R.id.input_network_rpc_url, url);
@@ -340,7 +323,7 @@ public class Steps
 
     public static void input(int id, String text)
     {
-        onView(allOf(withId(R.id.edit_text), isDescendantOfA(withId(id)))).perform(replaceText(text));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text), isDescendantOfA(withId(id)))).perform(replaceText(text));
     }
 
     public static void watchWalletWithENS(String ens)
@@ -379,7 +362,7 @@ public class Steps
         click(withId(R.id.action_add));
         Helper.wait(1);
 
-        onView(AllOf.allOf(withId(R.id.edit_text))).perform(replaceText(contractAddress));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text))).perform(replaceText(contractAddress));
 
         onView(isRoot()).perform(waitUntil(withId(R.id.select_token), 300));
 

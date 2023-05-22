@@ -5,19 +5,17 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.alphawallet.app.steps.Steps.closeSecurityWarning;
-import static com.alphawallet.app.steps.Steps.closeSelectNetworkPage;
 import static com.alphawallet.app.steps.Steps.getWalletAddress;
 import static com.alphawallet.app.util.Helper.click;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.fail;
 
 import android.os.Build;
 
 import com.alphawallet.app.util.Helper;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -44,7 +42,7 @@ public class ImportWalletWithSeedPhraseTest extends BaseE2ETest {
 
         click(withText("I already have a Wallet"));
 
-        onView(allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_seed)))))).perform(replaceText(seedPhrase));
+        onView(CoreMatchers.allOf(withId(R.id.edit_text), withParent(withParent(withParent(withId(R.id.input_seed)))))).perform(replaceText(seedPhrase));
         Helper.wait(2); // Avoid error: Error performing a ViewAction! soft keyboard dismissal animation may have been in the way. Retrying once after: 1000 millis
         click(withId(R.id.import_action));
         assertThat(getWalletAddress(), equalTo(existedWalletAddress));

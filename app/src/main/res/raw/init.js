@@ -84,7 +84,7 @@ window.AlphaWallet.init(__rpcURL, {
 })
 
 window.web3.setProvider = function () {
-  console.debug('Alpha Wallet - overrode web3.setProvider')
+  console.debug('Tmc Wallet - overrode web3.setProvider')
 }
 
 window.web3.version.getNetwork = function(cb) {

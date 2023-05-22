@@ -5,9 +5,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anyOf;
-
 import android.graphics.Rect;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -20,7 +17,9 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.hamcrest.core.AllOf;
 
 /**
  * Created by JB on 4/04/2023.
@@ -29,9 +28,9 @@ public class ScrollToActionImproved implements ViewAction
 {
     @Override
     public Matcher<View> getConstraints() {
-        return allOf(
+        return AllOf.allOf(
                 withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
-                isDescendantOfA(anyOf(
+                isDescendantOfA(CoreMatchers.anyOf(
                         isAssignableFrom(ScrollView.class),
                         isAssignableFrom(HorizontalScrollView.class),
                         isAssignableFrom(NestedScrollView.class))
