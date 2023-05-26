@@ -77,7 +77,7 @@ public class TokenDefinition
     public String holdingToken = null;
     private int actionCount;
 
-    public static final String TOKENSCRIPT_CURRENT_SCHEMA = "2020/06";
+    public static final String TOKENSCRIPT_CURRENT_SCHEMA = "1.0";
     public static final String TOKENSCRIPT_REPO_SERVER = "https://repo.tokenscript.org/";
     public static final String TOKENSCRIPT_NAMESPACE = "http://tokenscript.org/" + TOKENSCRIPT_CURRENT_SCHEMA + "/tokenscript";
 

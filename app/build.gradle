@@ -63,7 +63,7 @@ android_lint_reporter {
     detektFilePath = "./build/reports/detekt/detekt.xml"
     githubOwner = "TmcWallet"
     githubRepositoryName = "tmc-wallet-android"
-    showLog = true // optional - default to false, show extra information, will slow things down
+    showLog = false // optional - default to false, show extra information, will slow things down
 }
 
 repositories {
