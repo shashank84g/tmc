@@ -1,5 +1,7 @@
 package com.alphawallet.app.viewmodel;
 
+import android.util.Log;
+
 import com.alphawallet.app.entity.NetworkInfo;
 import com.alphawallet.app.repository.EthereumNetworkRepository;
 import com.alphawallet.app.repository.EthereumNetworkRepositoryType;
@@ -7,6 +9,7 @@ import com.alphawallet.app.repository.PreferenceRepositoryType;
 import com.alphawallet.app.service.AnalyticsServiceType;
 import com.alphawallet.app.service.TokensService;
 import com.alphawallet.app.ui.widget.entity.NetworkItem;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import timber.log.Timber;
 
 @HiltViewModel
 public class NetworkToggleViewModel extends BaseViewModel
@@ -85,6 +89,8 @@ public class NetworkToggleViewModel extends BaseViewModel
         List<NetworkItem> networkList = new ArrayList<>();
         List<Long> filterIds = networkRepository.getSelectedFilters();
 
+        Timber.tag("filterIds: ").e(new Gson().toJson(filterIds));
+        Timber.tag("getNetworkList: ").e(new Gson().toJson(getNetworkList()));
         for (NetworkInfo info : getNetworkList())
         {
             if (EthereumNetworkRepository.hasRealValue(info.chainId) == isMainNet)
