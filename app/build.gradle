@@ -85,8 +85,8 @@ android {
         }
     }
     defaultConfig {
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
 
         applicationId "io.majoritytmc.wallet"
         minSdkVersion 24

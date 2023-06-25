@@ -3,6 +3,8 @@ package com.alphawallet.app.ui;
 import static com.alphawallet.app.C.Key.WALLET;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -44,6 +46,7 @@ import com.alphawallet.app.widget.PasswordInputView;
 import com.alphawallet.app.widget.SignTransactionDialog;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -84,6 +87,7 @@ public class BackupKeyActivity extends BaseActivity implements
     private boolean hasNoLock = false;
 
     private int screenWidth;
+    private MaterialButton buttonPhrase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -375,6 +379,14 @@ public class BackupKeyActivity extends BaseActivity implements
         backupImage = findViewById(R.id.backup_seed_image);
         functionButtonBar = findViewById(R.id.layoutButtons);
         inputView = findViewById(R.id.input_password);
+        buttonPhrase = findViewById(R.id.buttonPhrase);
+        buttonPhrase.setText(getResources().getString(R.string.action_copy));
+        buttonPhrase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyToClipboard();
+            }
+        });
         if (inputView != null)
         {
             inputView.getEditText().addTextChangedListener(this);
@@ -383,6 +395,23 @@ public class BackupKeyActivity extends BaseActivity implements
         toolbar();
         setTitle(getString(R.string.empty));
     }
+
+    private void copyToClipboard()
+    {
+        StringBuilder totalPhrase= new StringBuilder();
+        for (String s : mnemonicArray) {
+            totalPhrase.append(s).append(" ");
+        }
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        /*This will be the actual content you wish you share.*/
+        /*The type of the content is text, obviously.*/
+        intent.setType("text/plain");
+        /*Applying information Subject and Body.*/
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, totalPhrase.toString());
+        /*Fire!*/
+        startActivity(Intent.createChooser(intent, getString(R.string.action_share)));
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

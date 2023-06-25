@@ -16,11 +16,12 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.alphawallet.ethereum.EthereumNetworkBase.MAINNET_ID;
+import static com.alphawallet.ethereum.EthereumNetworkBase.TMC_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.TMC_TEST_ID;
 
 public class CustomViewSettings
 {
-    public static final long primaryChain = MAINNET_ID;
+    public static final long primaryChain = TMC_ID;
     public static final long secondaryChain = TMC_TEST_ID;
     private static final String primaryChainName = C.ETHEREUM_NETWORK_NAME;
 
@@ -50,8 +51,8 @@ public class CustomViewSettings
     );
 
     public static final List<Long> alwaysVisibleChains = Arrays.asList(
-            EthereumNetworkBase.MAINNET_ID,
-            EthereumNetworkBase.TMC_TEST_ID
+            EthereumNetworkBase.TMC_TEST_ID,
+            EthereumNetworkBase.TMC_ID
 
     );
 
@@ -166,5 +167,15 @@ public class CustomViewSettings
     public static boolean inputAmountFiatDefault()
     {
         return false;
+    }
+
+    //RPC url hidden chain ID
+    public static final List<Long> hiddenRpcChains = Arrays.asList(
+            EthereumNetworkBase.TMC_TEST_ID,
+            EthereumNetworkBase.TMC_ID
+    );
+    public static List<Long> getHiddenRpcChains()
+    {
+        return hiddenRpcChains;
     }
 }

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical">
 
     <include layout="@layout/layout_simple_toolbar" />
 
@@ -29,6 +31,20 @@
         android:layout_marginRight="@dimen/standard_16"
         app:flexDirection="row"
         app:flexWrap="wrap" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonPhrase"
+            style="@style/Aw.Component.Button.TextIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:icon="@drawable/ic_copy"
+            tools:text="@string/action_copy"
+            android:textColor="@color/arbitrum_main"
+            android:lines="1"
+            android:maxLines="1"
+            android:layout_above="@+id/layoutButtons"
+            android:layout_centerHorizontal="true"/>
 
     <com.alphawallet.app.widget.FunctionButtonBar
         android:id="@+id/layoutButtons"

@@ -21,6 +21,7 @@ public abstract class C {
     public static final int ADDED_TOKEN_RETURN = 9;
 
     public static final String TMC_TEST_NETWORK_NAME = "Majority (Test)";
+    public static final String TMC_NETWORK_NAME = "Majority";
     public static final String ETHEREUM_NETWORK_NAME = "Ethereum";
     public static final String CLASSIC_NETWORK_NAME = "Ethereum Classic";
     public static final String XDAI_NETWORK_NAME = "Gnosis";
