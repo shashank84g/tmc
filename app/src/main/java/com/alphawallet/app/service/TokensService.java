@@ -970,7 +970,7 @@ public class TokensService
             if (!networkFilter.contains(lockedChain)) networkFilter.add(lockedChain);
         }
 
-        if (networkFilter.size() == 0) networkFilter.add(ethereumNetworkRepository.getDefaultNetwork());
+        if (networkFilter.size() == 0) networkFilter.addAll(ethereumNetworkRepository.getDefaultNetwork());
 
         //set network filter prefs
         ethereumNetworkRepository.setFilterNetworkList(networkFilter.toArray(new Long[0]));

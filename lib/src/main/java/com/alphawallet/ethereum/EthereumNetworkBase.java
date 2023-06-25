@@ -9,6 +9,8 @@ import java.util.Map;
 
 public abstract class EthereumNetworkBase
 { // implements EthereumNetworkRepositoryType
+    public static final long TMC_TEST_ID = 180018;
+
     public static final long MAINNET_ID = 1;
     public static final long CLASSIC_ID = 61;
     public static final long GNOSIS_ID = 100;
