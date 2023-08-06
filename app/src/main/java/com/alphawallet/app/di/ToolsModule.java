@@ -6,6 +6,7 @@ import com.alphawallet.app.C;
 import com.alphawallet.app.interact.WalletConnectInteract;
 import com.alphawallet.app.repository.PreferenceRepositoryType;
 import com.alphawallet.app.service.RealmManager;
+import com.alphawallet.app.util.LogInterceptor;
 import com.alphawallet.app.walletconnect.AWWalletConnectClient;
 import com.google.gson.Gson;
 
@@ -19,6 +20,7 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 @Module
 @InstallIn(SingletonComponent.class)
@@ -37,7 +39,7 @@ public class ToolsModule
     OkHttpClient okHttpClient()
     {
         return new OkHttpClient.Builder()
-                //.addInterceptor(new LogInterceptor())
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
                 .connectTimeout(C.CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(C.READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(C.WRITE_TIMEOUT, TimeUnit.SECONDS)
