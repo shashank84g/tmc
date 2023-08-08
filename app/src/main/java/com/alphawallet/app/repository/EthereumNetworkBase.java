@@ -123,7 +123,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
     public static final String FREE_PALM_TEST_RPC_URL = "https://palm-testnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b";
     public static final String FREE_CRONOS_MAIN_BETA_RPC_URL = "https://evm.cronos.org";
 
-    public static final String TMC_TEST_RPC_URL = "https://testnet.themajoritycoin.io";
+    public static final String TMC_TEST_RPC_URL = "https://testnet.rpctmc.io";
     public static final String TMC_RPC_URL = "https://rpctmc.io";
     public static final String MAINNET_RPC_URL = usesProductionKey ? "https://mainnet.infura.io/v3/" + keyProvider.getInfuraKey()
             : FREE_MAINNET_RPC_URL;
