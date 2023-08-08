@@ -12,6 +12,7 @@ import com.alphawallet.app.R;
 import com.alphawallet.app.entity.tokens.Token;
 import com.alphawallet.app.service.TickerService;
 import com.alphawallet.app.service.TokensService;
+import com.alphawallet.ethereum.EthereumNetworkBase;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -45,7 +46,9 @@ public class TokenInfoHeaderView extends LinearLayout {
         Pair<Double, Double> pricePair = svs.getFiatValuePair(token.tokenInfo.chainId, token.getAddress());
 
         setMarketValue(pricePair.first);
-        setPriceChange(pricePair.second);
+        if(token.tokenInfo.chainId!= EthereumNetworkBase.TMC_ID) { //TMC CHANGES
+            setPriceChange(pricePair.second);
+        }
     }
 
     public void setAmount(String text)

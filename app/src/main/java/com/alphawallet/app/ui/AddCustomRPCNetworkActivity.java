@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.webkit.URLUtil;
 
@@ -13,11 +14,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alphawallet.app.R;
 import com.alphawallet.app.analytics.Analytics;
+import com.alphawallet.app.entity.CustomViewSettings;
 import com.alphawallet.app.entity.NetworkInfo;
 import com.alphawallet.app.entity.StandardFunctionInterface;
 import com.alphawallet.app.viewmodel.CustomNetworkViewModel;
 import com.alphawallet.app.widget.FunctionButtonBar;
 import com.alphawallet.app.widget.InputView;
+import com.alphawallet.ethereum.EthereumNetworkBase;
 import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.ArrayList;
@@ -101,6 +104,10 @@ public class AddCustomRPCNetworkActivity extends BaseActivity implements Standar
                 buttons.add(R.string.action_reset_network);
             }
             addFunctionBar(buttons);
+            if (CustomViewSettings.getHiddenRpcChains().contains(chainId)){
+                rpcUrlInputView.setVisibility(View.GONE);
+            }
+
         }
         else
         {

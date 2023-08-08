@@ -61,9 +61,9 @@ detekt {
 android_lint_reporter {
     lintFilePath = "./build/reports/lint-results-analyticsDebug.xml"
     detektFilePath = "./build/reports/detekt/detekt.xml"
-    githubOwner = "AlphaWallet"
-    githubRepositoryName = "alpha-wallet-android"
-    showLog = true // optional - default to false, show extra information, will slow things down
+    githubOwner = "TmcWallet"
+    githubRepositoryName = "tmc-wallet-android"
+    showLog = false // optional - default to false, show extra information, will slow things down
 }
 
 repositories {
@@ -85,8 +85,8 @@ android {
         }
     }
     defaultConfig {
-        versionCode 242
-        versionName "3.63"
+        versionCode 5
+        versionName "1.3"
 
         applicationId "io.majoritytmc.wallet"
         minSdkVersion 24
@@ -95,10 +95,10 @@ android {
         testInstrumentationRunnerArguments clearPackageData: 'true'
         def XInfuraAPI = "XInfuraAPI"
         //Put your Infura key here, NB with over 30 - 40 users this API key will rate limit, it's only here for bootstrapping a free build
-        def DEFAULT_INFURA_API_KEY = "\"da3717f25f824cc1baa32d812386d93f\""
-        def DEFAULT_OPENSEA_API_KEY = "\"...\""; //Put your OpenSea developer API key in here, otherwise you are reliant on the backup NFT fetch method (which usually works ok)
-        def DEFAULT_POLYGONSCAN_API_KEY = "\"\""; //Put your Polygonscan developer API key in here to get access to Polygon/Mumbai token discovery and transactions
-        def DEFUALT_WALLETCONNECT_PROJECT_ID = "\"40c6071febfd93f4fe485c232a8a4cd9\""
+        def DEFAULT_INFURA_API_KEY = "\"bf62418ff742465c9d502d06c1678fd7\""
+        def DEFAULT_OPENSEA_API_KEY = "\"75e273f65e3e40598a2fa2f28e5a0324\""; //Put your OpenSea developer API key in here, otherwise you are reliant on the backup NFT fetch method (which usually works ok)
+        def DEFAULT_POLYGONSCAN_API_KEY = "\"JM53ME4HT3UYPHW8IUAX8CMA2HV8KXQFTC\""; //Put your Polygonscan developer API key in here to get access to Polygon/Mumbai token discovery and transactions
+        def DEFUALT_WALLETCONNECT_PROJECT_ID = "\"26ba6c362d82895d6434b5d499cfe8f8\""
         def DEFAULT_AURORA_API_KEY = "\"HFDDY5BNKGXBB82DE2G8S64C3C41B76PYI\""; //Put your Aurorascan.dev API key here - this one will rate limit as it is common
 
         buildConfigField 'int', 'DB_VERSION', '51'
@@ -193,9 +193,7 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
-    dexOptions {
-        javaMaxHeapSize = "4g"
-    }
+
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
@@ -236,7 +234,7 @@ gradle.projectsEvaluated({
     def username = getGitHubUsername()
     def password = getPAT()
     if (!username || !password) {
-        throw new GradleException('Please provide GitHub username and Personal Access Token. Find more here https://github.com/alphaWallet/alpha-wallet-android#getting-started')
+        throw new GradleException('Please provide GitHub username and Personal Access Token.')
     }
 })
 
@@ -322,11 +320,13 @@ dependencies {
 
     // Unit tests
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:3.12.4'
+/*
+    testImplementation 'org.mockito:mockito-core:5.3.1'
     testImplementation group: 'org.powermock', name: 'powermock-module-junit4-rule-agent', version: '2.0.9'
     testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.9'
     testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.9'
     testImplementation group: 'org.json', name: 'json', version: '20220320'
+*/
 
     // Component tests
     testImplementation 'org.robolectric:robolectric:4.8.2'

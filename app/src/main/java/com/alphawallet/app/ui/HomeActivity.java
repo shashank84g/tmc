@@ -79,6 +79,7 @@ import com.alphawallet.app.util.PermissionUtils;
 import com.alphawallet.app.util.UpdateUtils;
 import com.alphawallet.app.util.Utils;
 import com.alphawallet.app.viewmodel.BaseNavigationActivity;
+import com.alphawallet.app.viewmodel.CustomNetworkViewModel;
 import com.alphawallet.app.viewmodel.HomeViewModel;
 import com.alphawallet.app.viewmodel.WalletConnectViewModel;
 import com.alphawallet.app.walletconnect.AWWalletConnectClient;
@@ -136,6 +137,9 @@ public class HomeActivity extends BaseNavigationActivity implements View.OnClick
     private boolean isForeground;
     private volatile boolean tokenClicked = false;
     private String openLink;
+
+    private CustomNetworkViewModel customNetworkViewModel;
+
     private final ActivityResultLauncher<String> requestPermissionLauncher =
         registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
             if (isGranted)
@@ -339,7 +343,6 @@ public class HomeActivity extends BaseNavigationActivity implements View.OnClick
         Intent i = new Intent(this, PriceAlertsService.class);
         startService(i);
     }
-
     private void onUpdateAvailable(String availableVersion)
     {
         externalUpdateReady(availableVersion);
@@ -751,7 +754,7 @@ public class HomeActivity extends BaseNavigationActivity implements View.OnClick
                 AWalletConfirmationDialog cDialog = new AWalletConfirmationDialog(this);
                 cDialog.setTitle(R.string.alphawallet_update);
                 cDialog.setCancelable(true);
-                cDialog.setSmallText("Using an old version of Alphawallet. Please update from the Play Store or Alphawallet website.");
+                cDialog.setSmallText("Using an old version of TMC Wallet. Please update from the Play Store or TMC Wallet website.");
                 cDialog.setPrimaryButtonText(R.string.ok);
                 cDialog.setPrimaryButtonListener(v ->
                 {

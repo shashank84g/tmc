@@ -400,9 +400,11 @@ public class WalletFragment extends BaseFragment implements
         }
         tabLayout.addTab(tabLayout.newTab().setText(R.string.all));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.assets));
+       /* TMC Changes
         tabLayout.addTab(tabLayout.newTab().setText(R.string.collectibles));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.defi_header));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.governance_header));
+        */
         //tabLayout.addTab(tabLayout.newTab().setText(R.string.attestations));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
@@ -421,12 +423,14 @@ public class WalletFragment extends BaseFragment implements
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         viewModel.prepare();
                         break;
+                /*   TMC Changes
                     case COLLECTIBLES:
                         setGridLayoutManager(TokenFilter.COLLECTIBLES);
                         viewModel.prepare();
                         break;
                     case ATTESTATIONS: // TODO: Filter Attestations
                         break;
+                */
                 }
             }
 

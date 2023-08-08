@@ -4,6 +4,7 @@ import static com.alphawallet.app.ui.AddCustomRPCNetworkActivity.CHAIN_ID;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,12 +19,14 @@ import com.alphawallet.app.ui.widget.adapter.MultiSelectNetworkAdapter;
 import com.alphawallet.app.ui.widget.entity.NetworkItem;
 import com.alphawallet.app.viewmodel.NetworkToggleViewModel;
 import com.alphawallet.ethereum.NetworkInfo;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import timber.log.Timber;
 
 @AndroidEntryPoint
 public class NetworkToggleActivity extends NetworkBaseActivity
@@ -55,6 +58,8 @@ public class NetworkToggleActivity extends NetworkBaseActivity
         List<NetworkItem> mainNetList = viewModel.getNetworkList(true);
         List<NetworkItem> testNetList = viewModel.getNetworkList(false);
 
+        Timber.tag("MainNet").e(new Gson().toJson(mainNetList));
+        Timber.tag("TestNet").e(new Gson().toJson(testNetList));
         MultiSelectNetworkAdapter.Callback callback = new MultiSelectNetworkAdapter.Callback()
         {
 

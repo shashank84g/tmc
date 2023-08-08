@@ -18,6 +18,9 @@
     <uses-feature
         android:name="android.hardware.fingerprint"
         android:required="false" />
+    <uses-feature
+            android:name="android.hardware.camera"
+            android:required="false" />
 
     <application
         android:name=".App"
@@ -132,7 +135,7 @@
             </intent-filter>
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
-                android:value="alphawallet" />
+                android:value="tmcwallet" />
         </service>
 
         <activity
