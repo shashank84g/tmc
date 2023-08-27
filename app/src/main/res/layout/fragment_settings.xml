@@ -52,7 +52,8 @@
             <com.alphawallet.app.widget.StandardHeader
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                custom:headerText="@string/support" />
+                custom:headerText="@string/support"
+                    android:visibility="gone"/>
 
             <LinearLayout
                 android:id="@+id/layout_settings_support"
@@ -122,7 +123,6 @@
                 </LinearLayout>
 
             </RelativeLayout>
-
         </LinearLayout>
 
     </ScrollView>

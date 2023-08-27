@@ -19,13 +19,16 @@ import static com.alphawallet.ethereum.EthereumNetworkBase.OKX_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.OPTIMISTIC_MAIN_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.POLYGON_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.POLYGON_TEST_ID;
+import static com.alphawallet.ethereum.EthereumNetworkBase.TMC_ID;
 import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.alphawallet.app.C;
 import com.alphawallet.app.entity.CoinGeckoTicker;
 import com.alphawallet.app.entity.DexGuruTicker;
 import com.alphawallet.app.entity.tokendata.TokenTicker;
@@ -77,7 +80,8 @@ import timber.log.Timber;
 
 public class TickerService
 {
-    private static final int UPDATE_TICKER_CYCLE = 5; //5 Minutes
+    public static final String TMC_TICKER_URL = "https://api.tmcwinners.io/api/fetch-live-price";
+    private static final int UPDATE_TICKER_CYCLE = 5;
     private static final String MEDIANIZER = "0x729D19f657BD0614b4985Cf1D82531c67569197B";
     private static final String MARKET_ORACLE_CONTRACT = "0xdAcAf435f241B1a062B021abEED9CA2F76F22F8D";
     private static final String CONTRACT_ADDR = "[CONTRACT_ADDR]";
@@ -137,12 +141,42 @@ public class TickerService
                 .subscribe();
     }
 
+    private Single<Integer> fetchTickerForTMC(int tickerCount)
+    {
+        return Single.fromCallable(() -> {
+
+            Request request = new Request.Builder()
+                    .url(TMC_TICKER_URL)
+                    .get()
+                    .build();
+            try (Response response = httpClient.newCall(request).execute())
+            {
+                if (response.code() / 200 == 1 && response.body()!=null)
+                {
+                    String result = response.body().string();
+                    JSONObject data = new JSONObject(result);
+                    String chainSymbol = C.TMC_SYMBOL.toLowerCase();
+                    JSONObject tickerData = (JSONObject) data.get(chainSymbol);
+                    TokenTicker tTicker = decodeCoinGeckoTicker(tickerData);
+                    addCustomTicker(TMC_ID,tTicker);
+                    return tickerCount+1;
+                }
+            }
+            catch (Exception e)
+            {
+                Timber.e(e);
+            }
+            return tickerCount;
+        });
+    }
+
     private void tickerUpdate()
     {
         mainTickerUpdate = updateCurrencyConversion()
                 .flatMap(this::updateTickersFromOracle)
                 .flatMap(this::fetchTickersSeparatelyIfRequired)
                 .flatMap(this::addArtisTicker)
+                .flatMap(this::fetchTickerForTMC)
                 .map(this::checkTickers)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -192,7 +226,9 @@ public class TickerService
     {
         //check base chain tickers
         if (receivedAllChainPairs()) return Single.fromCallable(() -> tickerCount);
-        else return fetchCoinGeckoChainPrices(); //fetch directly
+        else {
+            return fetchCoinGeckoChainPrices(); //fetch directly
+        }
     }
 
 
@@ -339,6 +375,9 @@ public class TickerService
             sb.append(t.getAddress());
             isFirst = false;
         }
+
+        Timber.tag("TickerAPI").e("ChainName"+" : "+apiChainName);
+        Timber.tag("TickerAPI").e("Contract_Addr"+" : "+sb.toString());
 
         Request request = new Request.Builder()
                 .url(COINGECKO_API.replace(CHAIN_IDS, apiChainName).replace(CONTRACT_ADDR, sb.toString()).replace(CURRENCY_TOKEN, currentCurrencySymbolTxt))
@@ -505,6 +544,39 @@ public class TickerService
     {
         ethTickers.put(ARTIS_SIGMA1_ID, tokenTicker);
         return tokenTicker;
+    }
+
+    private TokenTicker decodeCoinTmcTicker(JSONObject eth)
+    {
+        TokenTicker tTicker;
+        try
+        {
+            BigDecimal changeValue = BigDecimal.ZERO;
+            double fiatPrice = 0.0;
+            String fiatChangeStr = "0.0";
+            if (eth.has(currentCurrencySymbolTxt.toLowerCase()))
+            {
+                fiatPrice = eth.getDouble(currentCurrencySymbolTxt.toLowerCase());
+//                fiatChangeStr = eth.getString(currentCurrencySymbolTxt.toLowerCase() + "_24h_change");
+            }
+            else
+            {
+                fiatPrice = eth.getDouble("usd") * currentConversionRate;
+//                fiatChangeStr = eth.getString("usd_24h_change");
+            }
+//            if (!TextUtils.isEmpty(fiatChangeStr) && Character.isDigit(fiatChangeStr.charAt(0)))
+                changeValue = BigDecimal.valueOf(eth.getDouble(currentCurrencySymbolTxt.toLowerCase() + "_24h_change"));
+            tTicker = new TokenTicker(String.valueOf(fiatPrice),
+                    changeValue.setScale(3, RoundingMode.DOWN).toString(),
+                    currentCurrencySymbolTxt, "", System.currentTimeMillis());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            tTicker = new TokenTicker();
+        }
+
+        return tTicker;
     }
 
     private TokenTicker decodeCoinGeckoTicker(JSONObject eth)

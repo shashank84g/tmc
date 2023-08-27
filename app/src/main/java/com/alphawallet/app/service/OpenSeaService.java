@@ -3,6 +3,7 @@ package com.alphawallet.app.service;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.util.LongSparseArray;
 
 import com.alphawallet.app.C;
@@ -30,6 +31,7 @@ import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
 /**
@@ -54,6 +56,7 @@ public class OpenSeaService
                 .connectTimeout(C.READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(C.WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
                 .build();
     }
 
@@ -357,6 +360,7 @@ public class OpenSeaService
         String api = "";
         String ownerOption = "owner";
 
+        Timber.tag("Shashank_Result").e("Calling Network ID:" +networkId);
         //TODO: Put these into a mapping
         if (networkId == EthereumNetworkBase.MAINNET_ID)
         {
@@ -392,6 +396,7 @@ public class OpenSeaService
             ownerOption = "owner_address";
         }
 
+        String returnResponse="";
         if (!TextUtils.isEmpty(api))
         {
             Uri.Builder builder = new Uri.Builder();
@@ -399,11 +404,14 @@ public class OpenSeaService
                 .appendQueryParameter(ownerOption, address)
                 .appendQueryParameter("limit", String.valueOf(PAGE_SIZE))
                 .appendQueryParameter("offset", String.valueOf(offset));
-
-            return executeRequest(networkId, builder.build().toString());
+            returnResponse = executeRequest(networkId, builder.build().toString());
+//            Timber.tag("Shashank_fetch_1").e(returnResponse + " ");
+            return returnResponse;
         }
+        returnResponse = JsonUtils.EMPTY_RESULT;
+//        Timber.tag("Shashank_fetch_1").e(returnResponse + " ");
 
-        return JsonUtils.EMPTY_RESULT;
+        return returnResponse;
     }
 
     public String fetchAsset(long networkId, String contractAddress, String tokenId)
@@ -437,13 +445,17 @@ public class OpenSeaService
         {
             api = C.OPENSEA_SINGLE_ASSET_API_OPTIMISM + contractAddress + "/" + tokenId;
         }
+        String returnResponse = executeRequest(networkId, api);
+//        Timber.tag("Shashank_fetch_2").e(returnResponse + " ");
 
-        return executeRequest(networkId, api);
+        return returnResponse;
     }
 
     public String fetchCollection(long networkId, String slug)
     {
         String api = C.OPENSEA_COLLECTION_API_MAINNET + slug;
-        return executeRequest(networkId, api);
+        String returnResponse = executeRequest(networkId, api);
+//        Timber.tag("Shashank_fetch_3").e(returnResponse + " ");
+        return returnResponse;
     }
 }

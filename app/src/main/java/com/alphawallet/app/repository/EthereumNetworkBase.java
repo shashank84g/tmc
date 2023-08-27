@@ -60,6 +60,7 @@ import static com.alphawallet.ethereum.EthereumNetworkBase.POLYGON_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.POLYGON_TEST_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.SEPOLIA_TESTNET_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.SEPOLIA_TESTNET_RPC_URL;
+import static com.alphawallet.ethereum.EthereumNetworkBase.TMC_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.TMC_TEST_ID;
 import static com.alphawallet.ethereum.EthereumNetworkBase.XDAI_RPC_URL;
 
@@ -113,8 +114,6 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
 
     private static final KeyProvider keyProvider = KeyProviderFactory.get();
     public static final boolean usesProductionKey = !keyProvider.getInfuraKey().equals(DEFAULT_INFURA_KEY);
-
-    public static final String FREE_TMC_TEST_RPC_URL = "https://themajoritycoin.io";
     public static final String FREE_MAINNET_RPC_URL = "https://rpc.ankr.com/eth";
     public static final String FREE_POLYGON_RPC_URL = "https://polygon-rpc.com";
     public static final String FREE_ARBITRUM_RPC_URL = "https://arbitrum.public-rpc.com";
@@ -124,7 +123,8 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
     public static final String FREE_PALM_TEST_RPC_URL = "https://palm-testnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b";
     public static final String FREE_CRONOS_MAIN_BETA_RPC_URL = "https://evm.cronos.org";
 
-    public static final String TMC_TEST_RPC_URL = "https://testnet.themajoritycoin.io";
+    public static final String TMC_TEST_RPC_URL = "https://testnet.rpctmc.io";
+    public static final String TMC_RPC_URL = "https://rpctmc.io";
     public static final String MAINNET_RPC_URL = usesProductionKey ? "https://mainnet.infura.io/v3/" + keyProvider.getInfuraKey()
             : FREE_MAINNET_RPC_URL;
     public static final String GOERLI_RPC_URL = usesProductionKey ? "https://goerli.infura.io/v3/" + keyProvider.getInfuraKey()
@@ -149,6 +149,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
 
     // Use the "Free" routes as backup in order to diversify node usage; to avoid single point of failure
     public static final String TMC_TEST_FALLBACK_RPC_URL = TMC_TEST_RPC_URL;
+    public static final String TMC_FALLBACK_RPC_URL = TMC_RPC_URL;
     public static final String MAINNET_FALLBACK_RPC_URL = usesProductionKey ? FREE_MAINNET_RPC_URL : "https://mainnet.infura.io/v3/" + keyProvider.getSecondaryInfuraKey();
     public static final String GOERLI_FALLBACK_RPC_URL = usesProductionKey ? FREE_GOERLI_RPC_URL : "https://goerli.infura.io/v3/" + keyProvider.getSecondaryInfuraKey();
     public static final String ARBITRUM_FALLBACK_MAINNET_RPC = usesProductionKey ? FREE_ARBITRUM_RPC_URL : "https://arbitrum-mainnet.infura.io/v3/" + keyProvider.getSecondaryInfuraKey();
@@ -176,7 +177,9 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
     public static final String ARBITRUM_GOERLI_TESTNET_RPC_URL = "https://arbitrum-goerli.infura.io/v3/" + keyProvider.getInfuraKey();
 
     public static final String TMC_TEST_SCAN_URL = "https://testnet.tmcscan.io/tx/";
-    public static final String TMC_TEST_SCAN_API = "https://testnet.tmcscan.io/api";
+    public static final String TMC_SCAN_URL = "https://tmcscan.io/tx/";
+    public static final String TMC_TEST_SCAN_API = "https://testnet.tmcscan.io/api?";
+    public static final String TMC_SCAN_API = "https://tmcscan.io/api?";
 
 
     //All chains that have fiat/real value (not testnet) must be put here
@@ -184,7 +187,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
     //If your wallet prioritises xDai for example, you may want to move the XDAI_ID to the front of this list,
     //Then xDai would appear as the first token at the top of the wallet
     private static final List<Long> hasValue = new ArrayList<>(Arrays.asList(
-            MAINNET_ID, GNOSIS_ID, POLYGON_ID, CLASSIC_ID, ARTIS_SIGMA1_ID, BINANCE_MAIN_ID, HECO_ID, AVALANCHE_ID,
+            TMC_ID,MAINNET_ID, GNOSIS_ID, POLYGON_ID, CLASSIC_ID, ARTIS_SIGMA1_ID, BINANCE_MAIN_ID, HECO_ID, AVALANCHE_ID,
             FANTOM_ID, OPTIMISTIC_MAIN_ID, CRONOS_MAIN_ID, ARBITRUM_MAIN_ID, PALM_ID, KLAYTN_ID, IOTEX_MAINNET_ID, AURORA_MAINNET_ID, MILKOMEDA_C1_ID, OKX_ID));
 
     private static final List<Long> testnetList = new ArrayList<>(Arrays.asList(
@@ -221,6 +224,10 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
     // for reset built-in network
     private static final LongSparseArray<NetworkInfo> builtinNetworkMap = new LongSparseArray<NetworkInfo>() {
         {
+            put(TMC_ID, new NetworkInfo(C.TMC_NETWORK_NAME, C.TMC_SYMBOL,
+                    TMC_RPC_URL,
+                    TMC_SCAN_URL, TMC_ID,
+                    TMC_FALLBACK_RPC_URL, TMC_SCAN_API));
             put(TMC_TEST_ID, new NetworkInfo(C.TMC_TEST_NETWORK_NAME, C.TMC_SYMBOL,
                     TMC_TEST_RPC_URL,
                     TMC_TEST_SCAN_URL, TMC_TEST_ID,
@@ -369,6 +376,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
 
     private static final LongSparseArray<Integer> chainLogos = new LongSparseArray<Integer>() {
         {
+            put(TMC_ID, R.drawable.ic_tmc_logo);
             put(TMC_TEST_ID, R.drawable.ic_tmc_logo);
             put(MAINNET_ID, R.drawable.ic_token_eth);
             put(CLASSIC_ID, R.drawable.ic_icons_network_etc); //classic_logo
@@ -409,6 +417,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
 
     private static final LongSparseArray<Integer> smallChainLogos = new LongSparseArray<Integer>() {
         {
+            put(TMC_ID, R.drawable.ic_tmc_logo);
             put(TMC_TEST_ID, R.drawable.ic_tmc_logo);
             put(MAINNET_ID, R.drawable.ic_icons_network_eth);
             put(CLASSIC_ID, R.drawable.ic_icons_network_etc);
@@ -449,6 +458,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
 
     private static final LongSparseArray<Integer> chainColours = new LongSparseArray<Integer>() {
         {
+            put(TMC_ID, R.color.brand);
             put(TMC_TEST_ID, R.color.brand);
             put(MAINNET_ID, R.color.mainnet);
             put(CLASSIC_ID, R.color.classic);
@@ -494,7 +504,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
     private static final List<Long> hasGasOracleAPI = Arrays.asList(MAINNET_ID, HECO_ID, BINANCE_MAIN_ID, POLYGON_ID);
 
     //These chains don't allow custom gas
-    private static final List<Long> hasLockedGas = Arrays.asList(OPTIMISTIC_MAIN_ID, ARBITRUM_MAIN_ID, KLAYTN_ID, KLAYTN_BAOBAB_ID);
+    private static final List<Long> hasLockedGas = Arrays.asList(OPTIMISTIC_MAIN_ID, ARBITRUM_MAIN_ID, KLAYTN_ID, KLAYTN_BAOBAB_ID, TMC_TEST_ID,TMC_ID);
 
     private static final List<Long> hasOpenSeaAPI = Arrays.asList(MAINNET_ID, POLYGON_ID, ARBITRUM_GOERLI_TEST_ID, AVALANCHE_ID, KLAYTN_ID, OPTIMISM_GOERLI_TEST_ID, GOERLI_ID);
 

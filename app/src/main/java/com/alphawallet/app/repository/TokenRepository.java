@@ -74,6 +74,7 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class TokenRepository implements TokenRepositoryType {
 
@@ -1314,6 +1315,7 @@ public class TokenRepository implements TokenRepositoryType {
                 .connectTimeout(C.CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(C.READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(C.LONG_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
                 .retryOnConnectionFailure(true)
                 .build();
 

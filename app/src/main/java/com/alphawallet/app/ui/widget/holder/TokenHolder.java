@@ -1,6 +1,7 @@
 package com.alphawallet.app.ui.widget.holder;
 
 import static com.alphawallet.ethereum.EthereumNetworkBase.MAINNET_ID;
+import static com.alphawallet.ethereum.EthereumNetworkBase.TMC_ID;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -228,10 +229,15 @@ public class TokenHolder extends BinderViewHolder<TokenCardMeta> implements View
     {
         if (ticker != null)
         {
-            layoutAppreciation.setVisibility(View.VISIBLE);
+            if(token.tokenInfo.chainId==TMC_ID){
+                layoutAppreciation.setVisibility(View.GONE);
+            }else{
+                layoutAppreciation.setVisibility(View.VISIBLE);
+            }
             balanceCurrency.setVisibility(View.VISIBLE);
             setTickerInfo(ticker);
             maskSpamOrStaleTicker(ticker, group);
+
         }
         else
         {

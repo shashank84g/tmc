@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by JB on 4/09/2022.
@@ -38,6 +39,7 @@ public abstract class EthUtils
                 .connectTimeout(C.CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(C.READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(C.WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
                 .retryOnConnectionFailure(true)
                 .build();
 

@@ -168,7 +168,9 @@ public class InputView extends LinearLayout {
     public EditText getEditText() {
         return this.editText;
     }
-
+    public TextView getLabelText() {
+        return this.labelText;
+    }
     public CharSequence getText() {
         return this.editText.getText();
     }

@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -381,21 +382,23 @@ public class NewSettingsFragment extends BaseFragment
 
         systemSettingsLayout.addView(notificationsSetting, systemIndex++);
 
-        systemSettingsLayout.addView(changeLanguage, systemIndex++);
+//        systemSettingsLayout.addView(changeLanguage, systemIndex++);  // TMC Changes
 
         systemSettingsLayout.addView(changeCurrency, systemIndex++);
 
         systemSettingsLayout.addView(darkModeSetting, systemIndex++);
 
-        systemSettingsLayout.addView(advancedSetting, systemIndex++);
+//        systemSettingsLayout.addView(advancedSetting, systemIndex++);   //  TMC Changes
 
-        supportSettingsLayout.addView(supportSetting, supportIndex++);
+//        supportSettingsLayout.addView(supportSetting, supportIndex++);  // TMC Changes
     }
 
     private void setInitialSettingsData(View view)
     {
         TextView appVersionText = view.findViewById(R.id.text_version);
         appVersionText.setText(String.format(Locale.getDefault(), "%s (%d)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+        RelativeLayout layout_tokenscript_ = view.findViewById(R.id.layout_tokenscript_compatibility);
+        layout_tokenscript_.setVisibility(View.GONE);  // TMC Changes
         TextView tokenScriptVersionText = view.findViewById(R.id.text_tokenscript_compatibility);
         tokenScriptVersionText.setText(TOKENSCRIPT_CURRENT_SCHEMA);
     }

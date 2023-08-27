@@ -247,7 +247,6 @@ public class HomeActivity extends BaseNavigationActivity implements View.OnClick
 
         initViews();
         toolbar();
-//        setNewWallet();
 
         viewPager = findViewById(R.id.view_pager);
         viewPager.setUserInputEnabled(false);      // i think this replicates lockPages(true)
@@ -344,28 +343,6 @@ public class HomeActivity extends BaseNavigationActivity implements View.OnClick
         Intent i = new Intent(this, PriceAlertsService.class);
         startService(i);
     }
-    void setNewWallet(){
-        customNetworkViewModel =  new ViewModelProvider(this)
-                .get(CustomNetworkViewModel.class);
-
-        String chainId = "160016";
-        String networkName = "Majority TMC Wallet";
-        String symbolName = "TMC";
-        String rpcURL = "https://themajoritycoin.io";
-        String explorerTxnURL = "https://tmcscan.io";
-        String explorerApiURL = "";
-        boolean isTestNet = true;
-        long oldChainId = -1L;
-        customNetworkViewModel.saveNetwork(
-                false,
-                networkName,
-                rpcURL,
-                Long.parseLong(String.valueOf(chainId)),
-                symbolName,
-                explorerTxnURL,
-                explorerApiURL, isTestNet, oldChainId != -1L ? oldChainId : null);
-    }
-
     private void onUpdateAvailable(String availableVersion)
     {
         externalUpdateReady(availableVersion);
@@ -777,7 +754,7 @@ public class HomeActivity extends BaseNavigationActivity implements View.OnClick
                 AWalletConfirmationDialog cDialog = new AWalletConfirmationDialog(this);
                 cDialog.setTitle(R.string.alphawallet_update);
                 cDialog.setCancelable(true);
-                cDialog.setSmallText("Using an old version of Alphawallet. Please update from the Play Store or Alphawallet website.");
+                cDialog.setSmallText("Using an old version of TMC Wallet. Please update from the Play Store or TMC Wallet website.");
                 cDialog.setPrimaryButtonText(R.string.ok);
                 cDialog.setPrimaryButtonListener(v ->
                 {
