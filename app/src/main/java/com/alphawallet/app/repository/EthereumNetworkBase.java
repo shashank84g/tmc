@@ -178,8 +178,8 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
 
     public static final String TMC_TEST_SCAN_URL = "https://testnet.tmcscan.io/tx/";
     public static final String TMC_SCAN_URL = "https://tmcscan.io/tx/";
-    public static final String TMC_TEST_SCAN_API = "https://testnet.tmcscan.io/api";
-    public static final String TMC_SCAN_API = "https://tmcscan.io/api";
+    public static final String TMC_TEST_SCAN_API = "https://testnet.tmcscan.io/api?";
+    public static final String TMC_SCAN_API = "https://tmcscan.io/api?";
 
 
     //All chains that have fiat/real value (not testnet) must be put here
